@@ -1,3 +1,53 @@
+![Screenshot 2025-03-28 230139](https://github.com/user-attachments/assets/c339a356-f39a-45b6-be19-ff34358e3efd)
+![Screenshot 2025-03-28 225433](https://github.com/user-attachments/assets/f0a9a03d-b6e2-4037-a249-11fa0b0b24f6)
+![Screenshot 2025-03-28 225402](https://github.com/user-attachments/assets/448fb48d-4f2a-408b-ad8d-485bdf74c8a6)
+![Screenshot 2025-03-28 225250](https://github.com/user-attachments/assets/12091a0f-72b8-4e04-a1a9-e471eb704ddf)
+![Screenshot 2025-03-28 224355](https://github.com/user-attachments/assets/f95ed3b2-caf3-4bf0-97d3-79b4091def0f)
+
+CREATE DATABASE conproj3;
+USE conproj3;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+desc users;
+CREATE TABLE conferences(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    date DATE NOT NULL,
+    venue VARCHAR(255) NOT NULL,
+    available_seats INT NOT NULL
+);
+
+
+desc conferences;
+CREATE TABLE registration (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    conference_id INT NOT NULL,
+    registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_conference FOREIGN KEY (conference_id) REFERENCES conferences(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+desc registration;
+CREATE TABLE feedback (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    conference_id INT NOT NULL,
+    comments TEXT NOT NULL,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_feedback_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_feedback_conference FOREIGN KEY (conference_id) REFERENCES conferences(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+desc feedback;
+select * from users;
+
+python code:
 "# Conference Management System" 
 import tkinter as tk
 from tkinter import ttk, messagebox
