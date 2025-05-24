@@ -1,0 +1,45 @@
+CREATE DATABASE conproj3;
+USE conproj3;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+desc users;
+CREATE TABLE conferences(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    date DATE NOT NULL,
+    venue VARCHAR(255) NOT NULL,
+    available_seats INT NOT NULL
+);
+
+
+desc conferences;
+CREATE TABLE registration (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    conference_id INT NOT NULL,
+    registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_conference FOREIGN KEY (conference_id) REFERENCES conferences(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+desc registration;
+CREATE TABLE feedback (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    conference_id INT NOT NULL,
+    comments TEXT NOT NULL,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_feedback_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_feedback_conference FOREIGN KEY (conference_id) REFERENCES conferences(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+desc feedback;
+select * from users;
+
+
+
